@@ -1,23 +1,25 @@
+from PIL import Image
 import os
 
-def resize_images_in_folder(folder_path, target_width, target_height):
+def resizeimagesinfolder(folderpath, target_width, target_height):
     """
-    Basic script: Only validates the folder path. Does not resize images yet.
+    Resizes images in the specified folder.
     """
-    # Check if the folder exists
     if not os.path.isdir(folder_path):
         print("Folder path is invalid.")
         return
 
-    print(f"Folder '{folder_path}' exists. Ready to process images.")
+    # Process each image file in the folder
+    for filename in os.listdir(folder_path):
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+            image_path = os.path.join(folder_path, filename)
+            with Image.open(image_path) as img:
+                resized_image = img.resize((target_width, target_height))
+                resized_image.save(image_path)  # Overwrites original file
+                print(f"Resized {filename}")
 
-if __name__ == "__main__":
-    # User input for folder path
+if __name == "__main":
     folder_path = input("Enter the folder path containing images: ")
-
-    # Hardcoded dimensions
     target_width = 100
     target_height = 100
-
-    # Call the resize function
     resize_images_in_folder(folder_path, target_width, target_height)
